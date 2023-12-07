@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/presentation/components/widgets/custom_button.dart';
 import 'package:store_app/presentation/components/widgets/custom_text_form_field.dart';
+import 'package:store_app/presentation/screens/home_screen.dart';
 import 'package:store_app/presentation/screens/log_in_screen.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 
 class NewPasswordScreen extends StatefulWidget {
@@ -132,7 +132,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
 
   void verifyNewPassword() {
     if (_formKey.currentState?.validate() ?? false) {
-      Navigator.pushReplacementNamed(context, LogInScreen.route);
+      Navigator.pushReplacementNamed(context, HomeScreen.route);
       // Fluttertoast.showToast(
       //     msg: 'Password Changed Successfully',
       //     toastLength: Toast.LENGTH_SHORT,
