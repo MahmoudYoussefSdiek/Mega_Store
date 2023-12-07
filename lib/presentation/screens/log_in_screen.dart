@@ -186,6 +186,7 @@ class _LogInScreenState extends State<LogInScreen> {
           ),
         ),
       ),
+
     );
   }
 
