@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/presentation/screens/change_password_screens/forget_password_screen.dart';
+import 'package:store_app/presentation/screens/change_password_screens/new_password_screen.dart';
+import 'package:store_app/presentation/screens/change_password_screens/verfication_code_screen.dart';
 import 'package:store_app/presentation/screens/home_screen.dart';
 import 'package:store_app/presentation/screens/log_in_screen.dart';
 import 'package:store_app/presentation/screens/register_screen.dart';
@@ -29,7 +32,25 @@ class AppRoute {
 
       case RegisterScreen.route:
         return MaterialPageRoute(
-          builder: (_) => const RegisterScreen()
+          builder: (_) => const RegisterScreen(),
+        );
+
+
+      case ForgetPasswordScreen.route:
+        return MaterialPageRoute(
+            builder: (_) => const ForgetPasswordScreen(),
+        );
+
+
+      case VerficationCodeScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const VerficationCodeScreen(),
+        );
+
+
+      case NewPasswordScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const NewPasswordScreen(),
         );
 
 

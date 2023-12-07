@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:store_app/presentation/components/widgets/custom_button.dart';
 import 'package:store_app/presentation/components/widgets/custom_text_button.dart';
 import 'package:store_app/presentation/components/widgets/custom_text_form_field.dart';
-import 'package:store_app/presentation/components/widgets/log_in_method_button.dart';
 import 'package:store_app/presentation/screens/home_screen.dart';
 import 'package:store_app/presentation/screens/log_in_screen.dart';
 
@@ -21,10 +20,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isEmailValid = true;
   bool _isPhoneNumberValid = true;
   bool _isPasswordValid = true;
+  bool _isConfirmPasswordValid = true;
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -101,12 +102,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 8.0),
                     CustomTextField(
-                      controller: _passwordController,
+                      controller: _confirmPasswordController,
                       hintText: 'Confirm Password',
                       prefixIcon: Icons.lock_outline_rounded,
                       isPassword: true,
-                      colorFlag: _isPasswordValid,
-                      validator: validatePassword,
+                      colorFlag: _isConfirmPasswordValid,
+                      validator: validateconfirmPassword,
                     ),
                     const SizedBox(height: 8.0),
                     CustomButton(
@@ -221,6 +222,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } else {
       setState(() {
         _isPasswordValid = true;
+      });
+      return null;
+    }
+  }
+
+  String? validateconfirmPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      setState(() {
+        _isConfirmPasswordValid = false;
+      });
+      return 'Enter a valid password';
+    } else {
+      setState(() {
+        _isConfirmPasswordValid = true;
       });
       return null;
     }

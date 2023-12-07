@@ -3,6 +3,7 @@ import 'package:store_app/presentation/components/widgets/custom_button.dart';
 import 'package:store_app/presentation/components/widgets/custom_text_button.dart';
 import 'package:store_app/presentation/components/widgets/custom_text_form_field.dart';
 import 'package:store_app/presentation/components/widgets/log_in_method_button.dart';
+import 'package:store_app/presentation/screens/change_password_screens/forget_password_screen.dart';
 import 'package:store_app/presentation/screens/home_screen.dart';
 import 'package:store_app/presentation/screens/register_screen.dart';
 
@@ -134,7 +135,9 @@ class _LogInScreenState extends State<LogInScreen> {
                         imagePath: 'assets/Icons/facebook_icon.png',
                         function: () {}),
                     const SizedBox(height: 21.0),
-                    CustomTextButton(text: 'Forgot Password?', function: () {}),
+                    CustomTextButton(text: 'Forgot Password?', function: () {
+                      Navigator.pushReplacementNamed(context, ForgetPasswordScreen.route);
+                    }),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
