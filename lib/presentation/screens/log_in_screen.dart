@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/presentation/components/widgets/custom_button.dart';
+import 'package:store_app/presentation/components/widgets/custom_text_button.dart';
 import 'package:store_app/presentation/components/widgets/custom_text_form_field.dart';
+import 'package:store_app/presentation/components/widgets/log_in_method_button.dart';
 import 'package:store_app/presentation/screens/home_screen.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -25,6 +28,7 @@ class _LogInScreenState extends State<LogInScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
@@ -77,16 +81,107 @@ class _LogInScreenState extends State<LogInScreen> {
                       validator: validatePassword,
                     ),
                     const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          Navigator.pushReplacementNamed(
-                              context, HomeScreen.route);
-                        }
-                      },
-                      child: const Text('Sign In'),
+                    CustomButton(
+                      function: signIn,
+                      text: 'Sign In',
+                    ),
+                    const SizedBox(height: 30.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            //width: 134,
+                            decoration: const ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  width: 1,
+                                  strokeAlign: BorderSide.strokeAlignCenter,
+                                  color: Color(0xFFEAEFFF),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Center(
+                            widthFactor: 3.0,
+                            child: Text(
+                              'OR',
+                              style: TextStyle(
+                                color: Color(0xFF9098B1),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                height: 0.11,
+                                letterSpacing: 0.07,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            // width: 134,
+                            decoration: const ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  width: 1,
+                                  strokeAlign: BorderSide.strokeAlignCenter,
+                                  color: Color(0xFFEAEFFF),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
+                    LogInMethodButton(
+                        buttonText: 'Login with Google',
+                        imagePath: 'assets/google_icon.png',
+                        function: () {}),
+                    const SizedBox(height: 8.0),
+                    LogInMethodButton(
+                        buttonText: 'Login with facebook',
+                        imagePath: 'assets/facebook_icon.png',
+                        function: () {}),
+                    const SizedBox(height: 21.0),
+                    CustomTextButton(text: 'Forgot Password?', function: () {}),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Don’t have a account?'),
+                          CustomTextButton(text: 'Register', function: () {}),
+                        ],
+                      ),
                     ),
                   ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 34,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            margin: EdgeInsets.only(
+                bottom: 10), // Adjust the margin as needed
+            child: Opacity(
+              opacity: 0.50,
+              child: Container(
+                width: 134,
+                height: 5,
+                decoration: ShapeDecoration(
+                  color: Color(0xFFD1D6E7),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Color(0xFF9098B1)),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
                 ),
               ),
             ),
@@ -108,7 +203,6 @@ class _LogInScreenState extends State<LogInScreen> {
       });
       return null;
     }
-
   }
 
   String? validatePassword(String? value) {
@@ -122,6 +216,12 @@ class _LogInScreenState extends State<LogInScreen> {
         _isPasswordValid = true;
       });
       return null;
+    }
+  }
+
+  void signIn() {
+    if (_formKey.currentState?.validate() ?? false) {
+      Navigator.pushReplacementNamed(context, HomeScreen.route);
     }
   }
 }
