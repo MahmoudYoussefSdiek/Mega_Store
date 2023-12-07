@@ -4,22 +4,26 @@ import 'package:store_app/presentation/components/widgets/custom_text_button.dar
 import 'package:store_app/presentation/components/widgets/custom_text_form_field.dart';
 import 'package:store_app/presentation/components/widgets/log_in_method_button.dart';
 import 'package:store_app/presentation/screens/home_screen.dart';
-import 'package:store_app/presentation/screens/register_screen.dart';
+import 'package:store_app/presentation/screens/log_in_screen.dart';
 
-class LogInScreen extends StatefulWidget {
-  const LogInScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
-  static const String route = '/login';
+  static const String route = '/register';
 
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _isFullNameValid = true;
   bool _isEmailValid = true;
+  bool _isPhoneNumberValid = true;
   bool _isPasswordValid = true;
+  final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -29,7 +33,7 @@ class _LogInScreenState extends State<LogInScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: AlwaysScrollableScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
@@ -37,9 +41,9 @@ class _LogInScreenState extends State<LogInScreen> {
                 child: Column(
                   children: [
                     const Image(image: AssetImage('assets/logo.png')),
-                    const SizedBox(height: 30.0),
+                    const SizedBox(height: 71.0),
                     const Text(
-                      'Welcome to MEGA Store',
+                      'Let’s Get Started',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFF223263),
@@ -48,13 +52,27 @@ class _LogInScreenState extends State<LogInScreen> {
                         letterSpacing: 0.50,
                       ),
                     ),
-                    const SizedBox(height: 25.0),
-                    Text(
-                      'Sign in to continue',
+                    const SizedBox(height: 8.0),
+                    const Text(
+                      'Create an new account',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: TextStyle(
+                        color: Color(0xFF9098B1),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.50,
+                      ),
                     ),
                     const SizedBox(height: 28.0),
+                    CustomTextField(
+                      controller: _fullNameController,
+                      hintText: 'Full Name',
+                      isPassword: false,
+                      colorFlag: _isFullNameValid,
+                      prefixIcon: Icons.person_outline_rounded,
+                      validator: validateFullName,
+                    ),
+                    const SizedBox(height: 8.0),
                     CustomTextField(
                       controller: _emailController,
                       hintText: 'Your Email',
@@ -63,7 +81,16 @@ class _LogInScreenState extends State<LogInScreen> {
                       prefixIcon: Icons.email_outlined,
                       validator: validateEmail,
                     ),
-                    const SizedBox(height: 16.0),
+                    const SizedBox(height: 8.0),
+                    CustomTextField(
+                      controller: _phoneNumberController,
+                      hintText: 'Your Phone',
+                      isPassword: false,
+                      colorFlag: _isPhoneNumberValid,
+                      prefixIcon: Icons.phone,
+                      validator: validatePhoneNumber,
+                    ),
+                    const SizedBox(height: 8.0),
                     CustomTextField(
                       controller: _passwordController,
                       hintText: 'Password',
@@ -72,83 +99,40 @@ class _LogInScreenState extends State<LogInScreen> {
                       colorFlag: _isPasswordValid,
                       validator: validatePassword,
                     ),
-                    const SizedBox(height: 16.0),
-                    CustomButton(
-                      function: signIn,
-                      text: 'Sign In',
-                    ),
-                    const SizedBox(height: 30.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            //width: 134,
-                            decoration: const ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  width: 1,
-                                  strokeAlign: BorderSide.strokeAlignCenter,
-                                  color: Color(0xFFEAEFFF),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Center(
-                          widthFactor: 3.0,
-                          child: Text(
-                            'OR',
-                            style: TextStyle(
-                              color: Color(0xFF9098B1),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0.07,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            // width: 134,
-                            decoration: const ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  width: 1,
-                                  strokeAlign: BorderSide.strokeAlignCenter,
-                                  color: Color(0xFFEAEFFF),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    LogInMethodButton(
-                        buttonText: 'Login with Google',
-                        imagePath: 'assets/Icons/google_icon.png',
-                        function: () {}),
                     const SizedBox(height: 8.0),
-                    LogInMethodButton(
-                        buttonText: 'Login with facebook',
-                        imagePath: 'assets/Icons/facebook_icon.png',
-                        function: () {}),
+                    CustomTextField(
+                      controller: _passwordController,
+                      hintText: 'Confirm Password',
+                      prefixIcon: Icons.lock_outline_rounded,
+                      isPassword: true,
+                      colorFlag: _isPasswordValid,
+                      validator: validatePassword,
+                    ),
+                    const SizedBox(height: 8.0),
+                    CustomButton(
+                      function: signUp,
+                      text: 'Sign Up',
+                    ),
                     const SizedBox(height: 21.0),
-                    CustomTextButton(text: 'Forgot Password?', function: () {}),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'Don’t have a account?',
-                            style: Theme.of(context).textTheme.bodySmall,
+                          const Text(
+                            'have a account?',
+                            style: TextStyle(
+                              color: Color(0xFF9098B1),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.50,
+                            ),
                           ),
                           CustomTextButton(
-                              text: 'Register',
+                              text: 'Sign In',
                               function: () {
                                 Navigator.pushReplacementNamed(
-                                    context, RegisterScreen.route);
+                                    context, LogInScreen.route);
                               }),
                         ],
                       ),
@@ -165,16 +149,16 @@ class _LogInScreenState extends State<LogInScreen> {
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10), // Adjust the margin as needed
+            margin: EdgeInsets.only(bottom: 10), // Adjust the margin as needed
             child: Opacity(
               opacity: 0.50,
               child: Container(
                 width: 134,
                 height: 5,
                 decoration: ShapeDecoration(
-                  color: const Color(0xFFD1D6E7),
+                  color: Color(0xFFD1D6E7),
                   shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Color(0xFF9098B1)),
+                    side: BorderSide(color: Color(0xFF9098B1)),
                     borderRadius: BorderRadius.circular(100),
                   ),
                 ),
@@ -186,6 +170,20 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
+  String? validateFullName(String? value) {
+    if (value == null || value.isEmpty) {
+      setState(() {
+        _isFullNameValid = false;
+      });
+      return 'Enter a valid name';
+    } else {
+      setState(() {
+        _isFullNameValid = true;
+      });
+      return null;
+    }
+  }
+
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty || !value.contains('@')) {
       setState(() {
@@ -195,6 +193,20 @@ class _LogInScreenState extends State<LogInScreen> {
     } else {
       setState(() {
         _isEmailValid = true;
+      });
+      return null;
+    }
+  }
+
+  String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      setState(() {
+        _isPhoneNumberValid = false;
+      });
+      return 'Enter a valid phone number';
+    } else {
+      setState(() {
+        _isPhoneNumberValid = true;
       });
       return null;
     }
@@ -214,7 +226,7 @@ class _LogInScreenState extends State<LogInScreen> {
     }
   }
 
-  void signIn() {
+  void signUp() {
     if (_formKey.currentState?.validate() ?? false) {
       Navigator.pushReplacementNamed(context, HomeScreen.route);
     }

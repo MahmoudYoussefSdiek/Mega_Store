@@ -17,9 +17,9 @@ class CustomTextButton extends StatelessWidget {
         text,
         textAlign: TextAlign.center,
         style: const TextStyle(
-          color: Color(0xC4FF0009),
+          color: Color(0xFFED1C24),
           fontSize: 12,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
           letterSpacing: 0.50,
         ),
       ),

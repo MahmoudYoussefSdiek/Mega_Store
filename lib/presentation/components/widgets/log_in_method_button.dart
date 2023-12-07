@@ -34,7 +34,7 @@ class LogInMethodButton extends StatelessWidget {
               width: 24,
               height: 24,
               child: Image.asset(
-                imagePath, // Replace with your image file path
+                imagePath,
                 fit: BoxFit.cover,
               ),
             ),

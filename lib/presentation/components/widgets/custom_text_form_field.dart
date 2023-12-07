@@ -8,7 +8,8 @@ class CustomTextField extends StatefulWidget {
   late bool colorFlag;
   final String? Function(String?)? validator;
 
-   CustomTextField({super.key,
+  CustomTextField({
+    super.key,
     required this.controller,
     required this.hintText,
     required this.prefixIcon,
@@ -22,31 +23,33 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: const TextStyle(
+        color: Color(0xFF9098B1),
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.50,
+      ),
       controller: widget.controller,
       obscureText: widget.isPassword,
       decoration: InputDecoration(
         hintText: widget.hintText,
         prefixIcon: Icon(
-          widget.prefixIcon,
-          color: widget.colorFlag ? null : Colors.red,
-        ),
+                widget.prefixIcon,
+                color: widget.colorFlag ? null : Colors.red,
+              ),
         hintStyle: const TextStyle(
-          color: Color(0xFF9098B1),
-          fontSize: 12,
-          //fontFamily: 'Poppins',
-          fontWeight: FontWeight.w400,
-          height: 0.15,
-          letterSpacing: 0.50,
+              color: Color(0xFF9098B1),
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.50,
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 1,
-            color: widget.colorFlag ? const Color(0xFFEAEFFF)
-                : Colors.red,
+            color: widget.colorFlag ? const Color(0xFFEAEFFF) : Colors.red,
           ),
           borderRadius: BorderRadius.circular(5),
         ),
